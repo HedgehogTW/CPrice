@@ -339,3 +339,7 @@ void MainFrame::OnSelectFolder(wxCommandEvent& event)
 		setDataFileName();
 	}
 }
+
+void MainFrame::OnTACheckTA(wxCommandEvent& event)
+{
+}

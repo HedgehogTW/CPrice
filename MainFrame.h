@@ -29,6 +29,8 @@ public:
 	wxArrayString  	m_HOnames;
 	wxArrayString 	m_NGnames;
 	
+	vector<TA> m_vTA;
+	
 /////////////////////////	
 	
 	static void ShowMessage(wxString szFormat,...) {
@@ -51,6 +53,7 @@ public:
 	static MainFrame *m_pThis;
 
 protected:
+    virtual void OnTACheckTA(wxCommandEvent& event);
     virtual void OnSelectFolder(wxCommandEvent& event);
     virtual void OnPriceProcess(wxCommandEvent& event);
 };

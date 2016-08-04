@@ -71,3 +71,16 @@ void PriceData::readLine(char strline[])
 //	MainFrame::ShowMessage("%d, %d:%d, %.2f\n", m_date, hh, mm, m_price);
 		
 }
+
+///////////////////////////////
+// TA class
+///////////////////////////////
+TA::TA()
+{
+
+}
+
+
+TA::~TA()
+{
+}

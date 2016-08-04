@@ -52,3 +52,16 @@ public:
 	int m_minute;
 	float m_price;
 };
+
+class TA 
+{
+public:
+	TA();
+	~TA();
+	
+	int gvkey;
+	int datadate;
+	int fyear;	
+	string tic;
+	float at;
+};
