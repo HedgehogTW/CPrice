@@ -67,11 +67,14 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     m_menuItemProcess = new wxMenuItem(m_menuPrice, wxID_ANY, _("Process"), wxT(""), wxITEM_NORMAL);
     m_menuPrice->Append(m_menuItemProcess);
     
-    m_menu25 = new wxMenu();
-    m_menuBar->Append(m_menu25, _("TA"));
+    m_menuTA = new wxMenu();
+    m_menuBar->Append(m_menuTA, _("TA"));
     
-    m_menuItemTACheckTA = new wxMenuItem(m_menu25, wxID_ANY, _("Check TA"), wxT(""), wxITEM_NORMAL);
-    m_menu25->Append(m_menuItemTACheckTA);
+    m_menuItemTACheckTA = new wxMenuItem(m_menuTA, wxID_ANY, _("Check TA"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemTACheckTA);
+    
+    m_menuItemSort = new wxMenuItem(m_menuTA, wxID_ANY, _("Sort at"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemSort);
     
     m_name8 = new wxMenu();
     m_menuBar->Append(m_name8, _("Help"));
@@ -104,6 +107,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     this->Connect(m_menuItem7->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
     this->Connect(m_menuItemProcess->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnPriceProcess), NULL, this);
     this->Connect(m_menuItemTACheckTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACheckTA), NULL, this);
+    this->Connect(m_menuItemSort->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTASortAt), NULL, this);
     this->Connect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }
@@ -114,6 +118,7 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItem7->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnExit), NULL, this);
     this->Disconnect(m_menuItemProcess->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnPriceProcess), NULL, this);
     this->Disconnect(m_menuItemTACheckTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACheckTA), NULL, this);
+    this->Disconnect(m_menuItemSort->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTASortAt), NULL, this);
     this->Disconnect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }

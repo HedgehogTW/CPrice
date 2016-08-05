@@ -77,10 +77,23 @@ void PriceData::readLine(char strline[])
 ///////////////////////////////
 TA::TA()
 {
-
+	tic.clear();
 }
 
 
 TA::~TA()
 {
+}
+
+bool TA::readLine(char strline[])
+{
+	
+	char stic[20];
+	int n =sscanf(strline, "%d%d%d%s%f", &gvkey, &datadate, &fyear, stic, &at);
+	tic = string(stic);
+	//MainFrame::ShowMessage("%d %d %d %s %f\n", gvkey, datadate, fyear, stic, at);
+	if(n!= 5)
+		return false;
+	else
+		return true;
 }

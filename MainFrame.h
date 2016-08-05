@@ -22,6 +22,10 @@ public:
 	void processNG(wxArrayString& names);
 	void saveData(const char* fname);
 	
+	///////////////////// TA
+	void saveTAyear(int year, wxString& filename);
+	void sortTAByat(int year, vector<TA>& vTA);
+	
 	wxString	m_strFolder;
 	wxString m_strMainTitle;
 	vector<MainData> m_vMain;
@@ -53,6 +57,7 @@ public:
 	static MainFrame *m_pThis;
 
 protected:
+    virtual void OnTASortAt(wxCommandEvent& event);
     virtual void OnTACheckTA(wxCommandEvent& event);
     virtual void OnSelectFolder(wxCommandEvent& event);
     virtual void OnPriceProcess(wxCommandEvent& event);

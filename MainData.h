@@ -58,6 +58,21 @@ class TA
 public:
 	TA();
 	~TA();
+    TA& operator=(TA other)
+    {
+        
+        std::swap(gvkey, other.gvkey);
+        std::swap(datadate, other.datadate);
+        std::swap(fyear, other.fyear);
+        std::swap(tic, other.tic);	
+        std::swap(at, other.at);		
+        return *this;
+    }
+	bool operator < (const TA &m)const {
+                return at < m.at;
+	}
+
+	bool readLine(char strline[]);	
 	
 	int gvkey;
 	int datadate;

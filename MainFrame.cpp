@@ -3,6 +3,7 @@
 #include <wx/dirdlg.h> 
 #include <wx/string.h>
 #include <wx/wfstream.h>
+#include <algorithm>
 
 MainFrame *MainFrame::m_pThis=NULL;
 
@@ -104,7 +105,8 @@ void MainFrame::processCL(wxArrayString& dataNames)
 		
 		int bFound = 0;
 		while (!feof(fp)) {
-			fgets(strline, 200, fp);
+			char* p = fgets(strline, 200, fp);
+			if(p==NULL) break;
 
 			PriceData  oneData;
 			oneData.readLine(strline);
@@ -178,7 +180,8 @@ void MainFrame::processHO(wxArrayString& dataNames)
 		
 		int bFound = 0;
 		while (!feof(fp)) {
-			fgets(strline, 200, fp);
+			char* p = fgets(strline, 200, fp);
+			if(p==NULL) break;
 
 			PriceData  oneData;
 			oneData.readLine(strline);
@@ -250,7 +253,8 @@ void MainFrame::processNG(wxArrayString& dataNames)
 		
 		int bFound = 0;
 		while (!feof(fp)) {
-			fgets(strline, 200, fp);
+			char* p = fgets(strline, 200, fp);
+			if(p==NULL) break;
 
 			PriceData  oneData;
 			oneData.readLine(strline);
@@ -342,4 +346,163 @@ void MainFrame::OnSelectFolder(wxCommandEvent& event)
 
 void MainFrame::OnTACheckTA(wxCommandEvent& event)
 {
+	char strline[200];
+	string filename = m_strFolder.ToStdString() + "\\TA.txt";
+	
+	
+	FILE* fp = fopen(filename.c_str(), "r");
+	if(fp ==NULL) {
+		ShowMessage("Open "+filename+" error\n");	
+		return;
+	}
+	fgets(strline, 200, fp);
+	m_vTA.clear();
+	int count = 0;
+	int count0813 = 0;
+	vector<TA> vTA0813;
+	while (!feof(fp)) {
+		fgets(strline, 200, fp);
+		count++;
+		TA  oneData;
+		if(oneData.readLine(strline)==true) {
+			if(oneData.fyear ==2008) {
+				vTA0813.clear();
+				vTA0813.push_back(oneData);
+				count0813 = 1;
+				break;
+			}
+		}
+	} // read first record
+	
+	while (!feof(fp)) {
+		char* p = fgets(strline, 200, fp);
+		if(p==NULL) break;
+		
+		count++;
+		TA  oneData;
+		if(oneData.readLine(strline)==true) {
+			if(oneData.tic.compare(vTA0813[0].tic)==0) {
+				if( oneData.fyear == vTA0813[count0813-1].fyear+1) {
+					vTA0813.push_back(oneData);
+					count0813++;
+				}
+			}else {
+				if(count0813==6) {
+					for(int i=0; i<6; i++)
+						m_vTA.push_back(vTA0813[i]);
+					count0813 = 1;
+				}
+				if(oneData.fyear ==2008) {
+					vTA0813.clear();
+					vTA0813.push_back(oneData);
+					count0813 = 1;
+				}				
+			}
+		}
+	}
+
+			
+	fclose(fp);
+	ShowMessage("read %d/%d records\n", m_vTA.size(), count);
+	
+	filename = m_strFolder.ToStdString() + "\\TA_clear.txt";
+	fp = fopen(filename.c_str(), "w");
+	if(fp ==NULL) {
+		ShowMessage("Open "+filename+" error\n");	
+		return;
+	}
+	for(int i=0; i<m_vTA.size(); i++) {
+		fprintf(fp, "%d  %d  %d  %s  %.4f\n", 
+			m_vTA[i].gvkey, m_vTA[i].datadate, m_vTA[i].fyear, m_vTA[i].tic.c_str(), m_vTA[i].at);
+	}
+	fclose(fp);
+	
+	for(int i=2008; i<=2013; i++) {
+		wxString filename = m_strFolder;
+		filename << "\\TA_" << i << ".txt";
+		saveTAyear(i, filename);
+	
+	}
+	
+	
+	wxString msg;
+	msg<<"output TA file " << m_vTA.size() << " :"<< filename <<"\n";
+	ShowMessage(msg);
+}
+void MainFrame::saveTAyear(int year, wxString& filename)
+{
+
+	FILE* fp = fopen(filename.c_str(), "w");
+	if(fp ==NULL) {
+		ShowMessage("Open "+filename+" error\n");	
+		return;
+	}
+	for(int i=0; i<m_vTA.size(); i++) {
+		if(m_vTA[i].fyear==year)
+			fprintf(fp, "%d  %d  %d  %s  %.4f\n", 
+				m_vTA[i].gvkey, m_vTA[i].datadate, m_vTA[i].fyear, m_vTA[i].tic.c_str(), m_vTA[i].at);
+	}
+	fclose(fp);	
+	
+	wxString msg;
+	msg<<"output TA file  :"<< filename << "\n";
+	ShowMessage(msg);	
+}
+void MainFrame::OnTASortAt(wxCommandEvent& event)
+{
+	vector<TA> vTA;
+
+	for(int i=2008; i<=2013; i++) {
+		wxString savename = m_strFolder;
+		savename << "\\TA_" << i << "sort.csv";
+	
+		sortTAByat(i, vTA);	
+	}
+
+}
+void MainFrame::sortTAByat(int year, vector<TA>& vTA)
+{
+	
+	wxString filename = m_strFolder;
+	filename << "\\TA_" << year << ".txt";
+	FILE* fp = fopen(filename.c_str(), "r");
+	if(fp ==NULL) {
+		ShowMessage("Open "+filename+" error\n");	
+		return;
+	}
+	char strline[200];
+	vTA.clear();
+	int count = 0;
+
+	while (!feof(fp)) {
+		char* p = fgets(strline, 200, fp);
+		if(p==NULL) break;
+
+		TA  oneData;
+		if(oneData.readLine(strline)==true) {
+			vTA.push_back(oneData);
+			count++;
+		}
+	} // read first record	
+	fclose(fp);	
+	wxString msg;
+	msg << "Read " << filename << " " << count << " records, size " << vTA.size() << "\n";
+	
+	ShowMessage(msg);
+	
+    sort(vTA.begin(), vTA.end());
+
+////////////////////////// save
+	wxString savename = m_strFolder;
+	savename << "\\TA_" << year << "sort.txt";
+	fp = fopen(savename.c_str(), "w");
+	if(fp ==NULL) {
+		ShowMessage("Open "+savename+" error\n");	
+		return;
+	}
+	for(int i=0; i<vTA.size(); i++) {
+		fprintf(fp, "%d, %d, %d, %s, %.4f\n", 
+				vTA[i].gvkey, vTA[i].datadate, vTA[i].fyear, vTA[i].tic.c_str(), vTA[i].at);
+	}
+	fclose(fp);	
 }
