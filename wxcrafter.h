@@ -54,6 +54,7 @@ protected:
     wxMenu* m_menuTA;
     wxMenuItem* m_menuItemTACheckTA;
     wxMenuItem* m_menuItemSort;
+    wxMenuItem* m_menuItemCombineData;
     wxMenu* m_name8;
     wxMenuItem* m_menuItem9;
     wxToolBar* m_mainToolbar;
@@ -64,6 +65,7 @@ protected:
     virtual void OnPriceProcess(wxCommandEvent& event) { event.Skip(); }
     virtual void OnTACheckTA(wxCommandEvent& event) { event.Skip(); }
     virtual void OnTASortAt(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnTACombineData(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
 
 public:

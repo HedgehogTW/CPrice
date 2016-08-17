@@ -52,6 +52,21 @@ public:
 	int m_minute;
 	float m_price;
 };
+////////////////////////// new task
+class TAData
+{
+public:
+	TAData();
+	~TAData();
+	
+	bool readLine(char strline[]);
+	
+	int firmID;
+	string firm_tic;
+	int year;
+	string strLater;
+	int big33, mid33, small33;
+};
 
 class TA 
 {

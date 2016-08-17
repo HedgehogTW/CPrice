@@ -494,7 +494,7 @@ void MainFrame::sortTAByat(int year, vector<TA>& vTA)
 
 ////////////////////////// save
 	wxString savename = m_strFolder;
-	savename << "\\TA_" << year << "sort.txt";
+	savename << "\\TA_" << year << "sort.csv";
 	fp = fopen(savename.c_str(), "w");
 	if(fp ==NULL) {
 		ShowMessage("Open "+savename+" error\n");	
@@ -505,4 +505,47 @@ void MainFrame::sortTAByat(int year, vector<TA>& vTA)
 				vTA[i].gvkey, vTA[i].datadate, vTA[i].fyear, vTA[i].tic.c_str(), vTA[i].at);
 	}
 	fclose(fp);	
+}
+void MainFrame::OnTACombineData(wxCommandEvent& event)
+{
+	char strTitle[200];
+	char strline[200];
+	string title;
+	string filename = m_strFolder.ToStdString() + "\\data20160715.txt";
+	
+	FILE* fp = fopen(filename.c_str(), "r");
+	if(fp ==NULL) {
+		ShowMessage("Open "+filename+" error\n");	
+		return;
+	}
+
+	fgets(strTitle, 200, fp);
+	strTitle[strlen(strTitle)-1] = 0;
+//	strTitle[strlen(strTitle)-2] = 0;
+	title = string(strTitle) + "  big33  mid33  small33";
+	
+	m_vTAData.clear();
+	int count = 0;
+	int count0813 = 0;
+
+	while (!feof(fp)) {
+		fgets(strline, 200, fp);
+		count++;
+		TAData  oneData;
+		if(oneData.readLine(strline)==true) {
+
+			m_vTAData.push_back(oneData);
+			count++;
+		}
+	} // read first record	
+	
+	fclose(fp);
+	
+	fp = fopen("_test.txt", "w");
+	fprintf(fp, "%s\n", title.c_str());
+	for(int i=0; i<m_vTAData.size(); i++) {
+		fprintf(fp, "%5d  %6s  %8d %s", 
+		m_vTAData[i].firmID, m_vTAData[i].firm_tic.c_str(), m_vTAData[i].year , m_vTAData[i].strLater.c_str());
+	}
+	fclose(fp);
 }

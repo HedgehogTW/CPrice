@@ -97,3 +97,26 @@ bool TA::readLine(char strline[])
 	else
 		return true;
 }
+
+///////////////////////////////
+// TAData class
+///////////////////////////////
+TAData::TAData()
+{
+	big33 = mid33 = small33 = 0;
+}
+
+
+TAData::~TAData()
+{
+}
+
+bool TAData::readLine(char strline[])
+{
+	
+	char tic[20];
+	int n =sscanf(strline, "%d%s%d", &firmID, &tic, &year);
+	firm_tic = string(tic);
+	strLater = string(strline + 42);
+	return true;
+}

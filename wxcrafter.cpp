@@ -76,6 +76,9 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     m_menuItemSort = new wxMenuItem(m_menuTA, wxID_ANY, _("Sort at"), wxT(""), wxITEM_NORMAL);
     m_menuTA->Append(m_menuItemSort);
     
+    m_menuItemCombineData = new wxMenuItem(m_menuTA, wxID_ANY, _("Combine Data"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemCombineData);
+    
     m_name8 = new wxMenu();
     m_menuBar->Append(m_name8, _("Help"));
     
@@ -108,6 +111,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     this->Connect(m_menuItemProcess->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnPriceProcess), NULL, this);
     this->Connect(m_menuItemTACheckTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACheckTA), NULL, this);
     this->Connect(m_menuItemSort->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTASortAt), NULL, this);
+    this->Connect(m_menuItemCombineData->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACombineData), NULL, this);
     this->Connect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }
@@ -119,6 +123,7 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItemProcess->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnPriceProcess), NULL, this);
     this->Disconnect(m_menuItemTACheckTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACheckTA), NULL, this);
     this->Disconnect(m_menuItemSort->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTASortAt), NULL, this);
+    this->Disconnect(m_menuItemCombineData->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACombineData), NULL, this);
     this->Disconnect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }

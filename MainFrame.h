@@ -34,6 +34,7 @@ public:
 	wxArrayString 	m_NGnames;
 	
 	vector<TA> m_vTA;
+	vector<TAData> m_vTAData;
 	
 /////////////////////////	
 	
@@ -57,6 +58,7 @@ public:
 	static MainFrame *m_pThis;
 
 protected:
+    virtual void OnTACombineData(wxCommandEvent& event);
     virtual void OnTASortAt(wxCommandEvent& event);
     virtual void OnTACheckTA(wxCommandEvent& event);
     virtual void OnSelectFolder(wxCommandEvent& event);
