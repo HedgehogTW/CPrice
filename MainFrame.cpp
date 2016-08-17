@@ -349,14 +349,14 @@ void MainFrame::OnTACheckTA(wxCommandEvent& event)
 	char strline[200];
 	string filename = m_strFolder.ToStdString() + "\\TA.txt";
 	
-	
 	FILE* fp = fopen(filename.c_str(), "r");
 	if(fp ==NULL) {
 		ShowMessage("Open "+filename+" error\n");	
 		return;
 	}
 	fgets(strline, 200, fp);
-	m_vTA.clear();
+	
+	vector<TA> vTA;
 	int count = 0;
 	int count0813 = 0;
 	vector<TA> vTA0813;
@@ -389,7 +389,7 @@ void MainFrame::OnTACheckTA(wxCommandEvent& event)
 			}else {
 				if(count0813==6) {
 					for(int i=0; i<6; i++)
-						m_vTA.push_back(vTA0813[i]);
+						vTA.push_back(vTA0813[i]);
 					count0813 = 1;
 				}
 				if(oneData.fyear ==2008) {
@@ -403,7 +403,22 @@ void MainFrame::OnTACheckTA(wxCommandEvent& event)
 
 			
 	fclose(fp);
-	ShowMessage("read %d/%d records\n", m_vTA.size(), count);
+	ShowMessage("read %d/%d records\n", vTA.size(), count);
+	
+	// check tic match
+	loadDataFile();
+
+	for(int i=0; i<vTA.size(); i++) {
+		bool bFound = false;
+		for(int k=0; k<m_vTAData.size(); k++) {
+			if(vTA[i].tic.compare(m_vTAData[k].firm_tic)==0) {
+				bFound = true;
+				break;
+			}
+		}
+		if(bFound) vTA[i].match = true;
+		else vTA[i].match = false;
+	}
 	
 	filename = m_strFolder.ToStdString() + "\\TA_clear.txt";
 	fp = fopen(filename.c_str(), "w");
@@ -411,25 +426,26 @@ void MainFrame::OnTACheckTA(wxCommandEvent& event)
 		ShowMessage("Open "+filename+" error\n");	
 		return;
 	}
-	for(int i=0; i<m_vTA.size(); i++) {
-		fprintf(fp, "%d  %d  %d  %s  %.4f\n", 
-			m_vTA[i].gvkey, m_vTA[i].datadate, m_vTA[i].fyear, m_vTA[i].tic.c_str(), m_vTA[i].at);
+	for(int i=0; i<vTA.size(); i++) {
+		if(vTA[i].match)
+			fprintf(fp, "%d  %d  %d  %s  %.4f\n", 
+				vTA[i].gvkey, vTA[i].datadate, vTA[i].fyear, vTA[i].tic.c_str(), vTA[i].at);
 	}
 	fclose(fp);
 	
 	for(int i=2008; i<=2013; i++) {
 		wxString filename = m_strFolder;
 		filename << "\\TA_" << i << ".txt";
-		saveTAyear(i, filename);
+		saveTAyear(i, filename, vTA);
 	
 	}
 	
 	
 	wxString msg;
-	msg<<"output TA file " << m_vTA.size() << " :"<< filename <<"\n";
+	msg<<"output TA file " << vTA.size() << " :"<< filename <<"\n";
 	ShowMessage(msg);
 }
-void MainFrame::saveTAyear(int year, wxString& filename)
+void MainFrame::saveTAyear(int year, wxString& filename, vector<TA>& vTA)
 {
 
 	FILE* fp = fopen(filename.c_str(), "w");
@@ -437,10 +453,11 @@ void MainFrame::saveTAyear(int year, wxString& filename)
 		ShowMessage("Open "+filename+" error\n");	
 		return;
 	}
-	for(int i=0; i<m_vTA.size(); i++) {
-		if(m_vTA[i].fyear==year)
-			fprintf(fp, "%d  %d  %d  %s  %.4f\n", 
-				m_vTA[i].gvkey, m_vTA[i].datadate, m_vTA[i].fyear, m_vTA[i].tic.c_str(), m_vTA[i].at);
+	for(int i=0; i<vTA.size(); i++) {
+		if(vTA[i].match)
+			if(vTA[i].fyear==year)
+				fprintf(fp, "%d  %d  %d  %s  %.4f\n", 
+					vTA[i].gvkey, vTA[i].datadate, vTA[i].fyear, vTA[i].tic.c_str(), vTA[i].at);
 	}
 	fclose(fp);	
 	
@@ -451,12 +468,14 @@ void MainFrame::saveTAyear(int year, wxString& filename)
 void MainFrame::OnTASortAt(wxCommandEvent& event)
 {
 	vector<TA> vTA;
-
+	m_vTAYear.clear();
+	
 	for(int i=2008; i<=2013; i++) {
 		wxString savename = m_strFolder;
 		savename << "\\TA_" << i << "sort.csv";
 	
 		sortTAByat(i, vTA);	
+		m_vTAYear.push_back(vTA);
 	}
 
 }
@@ -506,11 +525,10 @@ void MainFrame::sortTAByat(int year, vector<TA>& vTA)
 	}
 	fclose(fp);	
 }
-void MainFrame::OnTACombineData(wxCommandEvent& event)
+void MainFrame::loadDataFile()
 {
 	char strTitle[200];
 	char strline[200];
-	string title;
 	string filename = m_strFolder.ToStdString() + "\\data20160715.txt";
 	
 	FILE* fp = fopen(filename.c_str(), "r");
@@ -522,30 +540,96 @@ void MainFrame::OnTACombineData(wxCommandEvent& event)
 	fgets(strTitle, 200, fp);
 	strTitle[strlen(strTitle)-1] = 0;
 //	strTitle[strlen(strTitle)-2] = 0;
-	title = string(strTitle) + "  big33  mid33  small33";
+	m_titleData = string(strTitle) + "  big33  mid33  small33";
 	
 	m_vTAData.clear();
 	int count = 0;
-	int count0813 = 0;
-
 	while (!feof(fp)) {
-		fgets(strline, 200, fp);
-		count++;
+		char* p = fgets(strline, 200, fp);
+		if(p==NULL) break;
 		TAData  oneData;
 		if(oneData.readLine(strline)==true) {
-
 			m_vTAData.push_back(oneData);
 			count++;
 		}
-	} // read first record	
+	} 
+	fclose(fp);	
 	
-	fclose(fp);
+	wxString msg;
+	msg << "Read " << filename << " " << count << " records\n";
+	ShowMessage(msg);	
+}
+void MainFrame::OnTACombineData(wxCommandEvent& event)
+{
+
 	
-	fp = fopen("_test.txt", "w");
-	fprintf(fp, "%s\n", title.c_str());
+	// combine TA ..............
+	string oldTic;
 	for(int i=0; i<m_vTAData.size(); i++) {
-		fprintf(fp, "%5d  %6s  %8d %s", 
-		m_vTAData[i].firmID, m_vTAData[i].firm_tic.c_str(), m_vTAData[i].year , m_vTAData[i].strLater.c_str());
+		int idx = getIdx(m_vTAYear[m_vTAData[i].year - 2008], m_vTAData[i].firm_tic);
+		if(idx ==0) {
+			if(m_vTAData[i].firm_tic.compare(oldTic)!=0) {
+				wxString msg;
+				msg << "TAData ERR: " << i+1 << ", year " << m_vTAData[i].year << ", firm_tic:" << m_vTAData[i].firm_tic 
+					<< ", date:" << m_vTAData[i].ddate << "\n";
+				ShowMessage(msg);
+				oldTic = m_vTAData[i].firm_tic;
+			}
+			m_vTAData[i].matched = 0;
+		}else if(idx ==1) {
+			m_vTAData[i].small33 = 1;
+			m_vTAData[i].mid33 = 0;
+			m_vTAData[i].big33 = 0;
+		}else if(idx ==2) {
+			m_vTAData[i].small33 = 0;
+			m_vTAData[i].mid33 = 1;
+			m_vTAData[i].big33 = 0;
+		}else if(idx ==3) {
+			m_vTAData[i].small33 = 0;
+			m_vTAData[i].mid33 = 0;
+			m_vTAData[i].big33 = 1;
+		}
+	}
+	
+	// output file
+	int match = 0;
+	FILE* fp = fopen("_result.txt", "w");
+	fprintf(fp, "%s\n", m_titleData.c_str());
+	for(int i=0; i<m_vTAData.size(); i++) {
+		if(m_vTAData[i].matched ==0) continue;
+		fprintf(fp, "%6d   %10s   %8d  %d  %s  %5d  %5d  %5d\n", 
+		m_vTAData[i].firmID, m_vTAData[i].firm_tic.c_str(), m_vTAData[i].year, m_vTAData[i].ddate, m_vTAData[i].strLater.c_str(),
+		m_vTAData[i].big33, m_vTAData[i].mid33, m_vTAData[i].small33);
+		match ++;
 	}
 	fclose(fp);
+	
+	wxString msg;
+	msg << "Read Data size " << m_vTAData.size() << ", match: " << match << "\n";
+	ShowMessage(msg);
+}
+
+int MainFrame::getIdx(vector<TA> &vTA, string ftic)
+{
+	int ret = 0;
+	int idx = -1; 
+	int sz = vTA.size();
+	for (int i=0; i<sz; i++){
+		if(vTA[i].tic.compare(ftic)==0) {
+			idx = i;
+			break;
+		}
+	}
+
+	if(idx >= 0) {
+		float r = (float) idx / sz;
+		if(r < 1./3.) ret = 1;
+		else if(r < 2./3.) ret = 2;
+		else ret = 3;
+	}else ret = 0;
+if(ftic.compare("VECO")==0) {
+	ShowMessage("VECO idx %d, sz %d, ret %d\n", idx, sz, ret);
+}	
+	return ret;
+	
 }

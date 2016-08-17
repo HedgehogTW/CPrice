@@ -64,8 +64,10 @@ public:
 	int firmID;
 	string firm_tic;
 	int year;
+	int ddate;
 	string strLater;
 	int big33, mid33, small33;
+	int matched;
 };
 
 class TA 
@@ -94,4 +96,5 @@ public:
 	int fyear;	
 	string tic;
 	float at;
+	bool match;
 };

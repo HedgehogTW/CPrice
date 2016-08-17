@@ -12,11 +12,11 @@ OutDir                 := $(IntermediateDirectory)
 CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
-User                   :=cclee
+User                   :=leech
 Date                   :=17/08/2016
 CodeLitePath           :="C:/Program Files/CodeLite"
-LinkerName             :=C:/mingw-w64/x86_64-4.9.3/mingw64/bin/g++.exe
-SharedObjectLinkerName :=C:/mingw-w64/x86_64-4.9.3/mingw64/bin/g++.exe -shared -fPIC
+LinkerName             :=C:/mingw-w64/x86_64-5.3.0/mingw64/bin/g++.exe
+SharedObjectLinkerName :=C:/mingw-w64/x86_64-5.3.0/mingw64/bin/g++.exe -shared -fPIC
 ObjectSuffix           :=.o
 DependSuffix           :=.o.d
 PreprocessSuffix       :=.i
@@ -36,7 +36,7 @@ ObjectsFileList        :="CPrice.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=makedir
 RcCmpOptions           := $(shell wx-config --rcflags)
-RcCompilerName         :=C:/mingw-w64/x86_64-4.9.3/mingw64/bin/windres.exe
+RcCompilerName         :=C:/mingw-w64/x86_64-5.3.0/mingw64/bin/windres.exe
 LinkOptions            :=  $(shell wx-config --libs) -mwindows
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
@@ -49,13 +49,13 @@ LibPath                := $(LibraryPathSwitch).
 ## Common variables
 ## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
 ##
-AR       := C:/mingw-w64/x86_64-4.9.3/mingw64/bin/ar.exe rcu
-CXX      := C:/mingw-w64/x86_64-4.9.3/mingw64/bin/g++.exe
-CC       := C:/mingw-w64/x86_64-4.9.3/mingw64/bin/gcc.exe
+AR       := C:/mingw-w64/x86_64-5.3.0/mingw64/bin/ar.exe rcu
+CXX      := C:/mingw-w64/x86_64-5.3.0/mingw64/bin/g++.exe
+CC       := C:/mingw-w64/x86_64-5.3.0/mingw64/bin/gcc.exe
 CXXFLAGS :=  -g -O0 -Wall $(shell wx-config --cflags)  $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
-AS       := C:/mingw-w64/x86_64-4.9.3/mingw64/bin/as.exe
+AS       := C:/mingw-w64/x86_64-5.3.0/mingw64/bin/as.exe
 
 
 ##

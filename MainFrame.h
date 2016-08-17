@@ -23,8 +23,10 @@ public:
 	void saveData(const char* fname);
 	
 	///////////////////// TA
-	void saveTAyear(int year, wxString& filename);
+	void saveTAyear(int year, wxString& filename, vector<TA>& vTA);
 	void sortTAByat(int year, vector<TA>& vTA);
+	int  getIdx(vector<TA> &vTA, string ftic);
+	void loadDataFile();
 	
 	wxString	m_strFolder;
 	wxString m_strMainTitle;
@@ -33,8 +35,9 @@ public:
 	wxArrayString  	m_HOnames;
 	wxArrayString 	m_NGnames;
 	
-	vector<TA> m_vTA;
+	vector<vector<TA>> m_vTAYear;
 	vector<TAData> m_vTAData;
+	string  m_titleData;
 	
 /////////////////////////	
 	

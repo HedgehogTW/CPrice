@@ -78,6 +78,7 @@ void PriceData::readLine(char strline[])
 TA::TA()
 {
 	tic.clear();
+	match = false;
 }
 
 
@@ -104,6 +105,7 @@ bool TA::readLine(char strline[])
 TAData::TAData()
 {
 	big33 = mid33 = small33 = 0;
+	matched = 1;
 }
 
 
@@ -115,8 +117,12 @@ bool TAData::readLine(char strline[])
 {
 	
 	char tic[20];
-	int n =sscanf(strline, "%d%s%d", &firmID, &tic, &year);
+	int n =sscanf(strline, "%d%s%d%d", &firmID, &tic, &year, &ddate);
 	firm_tic = string(tic);
-	strLater = string(strline + 42);
-	return true;
+	strline[strlen(strline)-1] = 0;
+	strLater = string(strline + 43);
+	if(n==4)
+		return true;
+	else
+		return false;
 }
