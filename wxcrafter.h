@@ -55,6 +55,12 @@ protected:
     wxMenuItem* m_menuItemTACheckTA;
     wxMenuItem* m_menuItemSort;
     wxMenuItem* m_menuItemCombineData;
+    wxMenuItem* m_menuItem41;
+    wxMenuItem* m_menuItemTA;
+    wxMenuItem* m_menuItemEMP;
+    wxMenuItem* m_menuItemLT;
+    wxMenuItem* m_menuItemLCT;
+    wxMenuItem* m_menuItemSALE;
     wxMenu* m_name8;
     wxMenuItem* m_menuItem9;
     wxToolBar* m_mainToolbar;
@@ -66,6 +72,11 @@ protected:
     virtual void OnTACheckTA(wxCommandEvent& event) { event.Skip(); }
     virtual void OnTASortAt(wxCommandEvent& event) { event.Skip(); }
     virtual void OnTACombineData(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProcessTA(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProcessEMP(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProcessLT(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProcessLCT(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProcessSALE(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
 
 public:

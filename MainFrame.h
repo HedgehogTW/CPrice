@@ -24,9 +24,13 @@ public:
 	
 	///////////////////// TA
 	void saveTAyear(int year, wxString& filename, vector<TA>& vTA);
-	void sortTAByat(int year, vector<TA>& vTA);
+	void sortTAByat(string& varName, int year, vector<TA>& vTA);
 	int  getIdx(vector<TA> &vTA, string ftic);
 	void loadDataFile();
+	void loadVariableData(string& varName);
+	void sortVarData(string& varName);
+	void outputCombineData(string& varName);
+	void saveSeparatedYearData(string& varName);
 	
 	wxString	m_strFolder;
 	wxString m_strMainTitle;
@@ -61,6 +65,11 @@ public:
 	static MainFrame *m_pThis;
 
 protected:
+    virtual void OnProcessTA(wxCommandEvent& event);
+    virtual void OnProcessEMP(wxCommandEvent& event);
+    virtual void OnProcessLCT(wxCommandEvent& event);
+    virtual void OnProcessLT(wxCommandEvent& event);
+    virtual void OnProcessSALE(wxCommandEvent& event);
     virtual void OnTACombineData(wxCommandEvent& event);
     virtual void OnTASortAt(wxCommandEvent& event);
     virtual void OnTACheckTA(wxCommandEvent& event);

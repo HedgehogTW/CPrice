@@ -79,6 +79,23 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     m_menuItemCombineData = new wxMenuItem(m_menuTA, wxID_ANY, _("Combine Data"), wxT(""), wxITEM_NORMAL);
     m_menuTA->Append(m_menuItemCombineData);
     
+    m_menuTA->AppendSeparator();
+    
+    m_menuItemTA = new wxMenuItem(m_menuTA, wxID_ANY, _("Process TA"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemTA);
+    
+    m_menuItemEMP = new wxMenuItem(m_menuTA, wxID_ANY, _("Process EMP"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemEMP);
+    
+    m_menuItemLT = new wxMenuItem(m_menuTA, wxID_ANY, _("Process LT"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemLT);
+    
+    m_menuItemLCT = new wxMenuItem(m_menuTA, wxID_ANY, _("Process LCT"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemLCT);
+    
+    m_menuItemSALE = new wxMenuItem(m_menuTA, wxID_ANY, _("Process SALES"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemSALE);
+    
     m_name8 = new wxMenu();
     m_menuBar->Append(m_name8, _("Help"));
     
@@ -112,6 +129,11 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     this->Connect(m_menuItemTACheckTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACheckTA), NULL, this);
     this->Connect(m_menuItemSort->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTASortAt), NULL, this);
     this->Connect(m_menuItemCombineData->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACombineData), NULL, this);
+    this->Connect(m_menuItemTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessTA), NULL, this);
+    this->Connect(m_menuItemEMP->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessEMP), NULL, this);
+    this->Connect(m_menuItemLT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessLT), NULL, this);
+    this->Connect(m_menuItemLCT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessLCT), NULL, this);
+    this->Connect(m_menuItemSALE->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessSALE), NULL, this);
     this->Connect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }
@@ -124,6 +146,11 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItemTACheckTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACheckTA), NULL, this);
     this->Disconnect(m_menuItemSort->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTASortAt), NULL, this);
     this->Disconnect(m_menuItemCombineData->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnTACombineData), NULL, this);
+    this->Disconnect(m_menuItemTA->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessTA), NULL, this);
+    this->Disconnect(m_menuItemEMP->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessEMP), NULL, this);
+    this->Disconnect(m_menuItemLT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessLT), NULL, this);
+    this->Disconnect(m_menuItemLCT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessLCT), NULL, this);
+    this->Disconnect(m_menuItemSALE->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessSALE), NULL, this);
     this->Disconnect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }
