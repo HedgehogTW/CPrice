@@ -99,6 +99,9 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     m_menuItemMKVALT = new wxMenuItem(m_menuTA, wxID_ANY, _("Process MKVALT"), wxT(""), wxITEM_NORMAL);
     m_menuTA->Append(m_menuItemMKVALT);
     
+    m_menuItemEPS = new wxMenuItem(m_menuTA, wxID_ANY, _("Process EPS"), wxT(""), wxITEM_NORMAL);
+    m_menuTA->Append(m_menuItemEPS);
+    
     m_name8 = new wxMenu();
     m_menuBar->Append(m_name8, _("Help"));
     
@@ -138,6 +141,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     this->Connect(m_menuItemLCT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessLCT), NULL, this);
     this->Connect(m_menuItemSALE->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessSALE), NULL, this);
     this->Connect(m_menuItemMKVALT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessMKVALT), NULL, this);
+    this->Connect(m_menuItemEPS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessEPS), NULL, this);
     this->Connect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }
@@ -156,6 +160,7 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItemLCT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessLCT), NULL, this);
     this->Disconnect(m_menuItemSALE->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessSALE), NULL, this);
     this->Disconnect(m_menuItemMKVALT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessMKVALT), NULL, this);
+    this->Disconnect(m_menuItemEPS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessEPS), NULL, this);
     this->Disconnect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }

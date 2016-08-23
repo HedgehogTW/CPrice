@@ -65,6 +65,7 @@ public:
 	static MainFrame *m_pThis;
 
 protected:
+    virtual void OnProcessEPS(wxCommandEvent& event);
     virtual void OnProcessMKVALT(wxCommandEvent& event);
     virtual void OnProcessTA(wxCommandEvent& event);
     virtual void OnProcessEMP(wxCommandEvent& event);

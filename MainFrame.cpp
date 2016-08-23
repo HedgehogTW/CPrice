@@ -736,3 +736,14 @@ void MainFrame::OnProcessMKVALT(wxCommandEvent& event)
 	wxEndBusyCursor ();
 
 }
+void MainFrame::OnProcessEPS(wxCommandEvent& event)
+{
+	wxBeginBusyCursor ();
+
+	string varName = string("EPS");
+	loadVariableData(varName);
+	sortVarData(varName);
+	outputCombineData(varName);	
+	wxEndBusyCursor ();
+	wxBell();
+}

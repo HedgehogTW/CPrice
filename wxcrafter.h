@@ -62,6 +62,7 @@ protected:
     wxMenuItem* m_menuItemLCT;
     wxMenuItem* m_menuItemSALE;
     wxMenuItem* m_menuItemMKVALT;
+    wxMenuItem* m_menuItemEPS;
     wxMenu* m_name8;
     wxMenuItem* m_menuItem9;
     wxToolBar* m_mainToolbar;
@@ -79,6 +80,7 @@ protected:
     virtual void OnProcessLCT(wxCommandEvent& event) { event.Skip(); }
     virtual void OnProcessSALE(wxCommandEvent& event) { event.Skip(); }
     virtual void OnProcessMKVALT(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnProcessEPS(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
 
 public:
