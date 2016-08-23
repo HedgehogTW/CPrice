@@ -725,3 +725,14 @@ void MainFrame::OnProcessTA(wxCommandEvent& event)
 }
 
 
+void MainFrame::OnProcessMKVALT(wxCommandEvent& event)
+{
+	wxBeginBusyCursor ();
+
+	string varName = string("MKVALT");
+	loadVariableData(varName);
+	sortVarData(varName);
+	outputCombineData(varName);	
+	wxEndBusyCursor ();
+
+}
