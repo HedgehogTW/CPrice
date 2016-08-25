@@ -13,10 +13,10 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=cclee
-Date                   :=23/08/2016
+Date                   :=25/08/2016
 CodeLitePath           :="C:/Program Files/CodeLite"
-LinkerName             :=C:/mingw-w64/x86_64-5.1.0/mingw64/bin/g++.exe
-SharedObjectLinkerName :=C:/mingw-w64/x86_64-5.1.0/mingw64/bin/g++.exe -shared -fPIC
+LinkerName             :=C:/mingw-w64/mingw64/bin/g++.exe
+SharedObjectLinkerName :=C:/mingw-w64/mingw64/bin/g++.exe -shared -fPIC
 ObjectSuffix           :=.o
 DependSuffix           :=.o.d
 PreprocessSuffix       :=.i
@@ -36,7 +36,7 @@ ObjectsFileList        :="CPrice.txt"
 PCHCompileFlags        :=
 MakeDirCommand         :=makedir
 RcCmpOptions           := $(shell wx-config --rcflags)
-RcCompilerName         :=C:/mingw-w64/x86_64-5.1.0/mingw64/bin/windres.exe
+RcCompilerName         :=C:/mingw-w64/mingw64/bin/windres.exe
 LinkOptions            :=  $(shell wx-config --libs) -mwindows
 IncludePath            :=  $(IncludeSwitch). $(IncludeSwitch). 
 IncludePCH             := 
@@ -49,20 +49,20 @@ LibPath                := $(LibraryPathSwitch).
 ## Common variables
 ## AR, CXX, CC, AS, CXXFLAGS and CFLAGS can be overriden using an environment variables
 ##
-AR       := C:/mingw-w64/x86_64-5.1.0/mingw64/bin/ar.exe rcu
-CXX      := C:/mingw-w64/x86_64-5.1.0/mingw64/bin/g++.exe
-CC       := C:/mingw-w64/x86_64-5.1.0/mingw64/bin/gcc.exe
+AR       := C:/mingw-w64/mingw64/bin/ar.exe rcu
+CXX      := C:/mingw-w64/mingw64/bin/g++.exe
+CC       := C:/mingw-w64/mingw64/bin/gcc.exe
 CXXFLAGS :=  -g -O0 -Wall $(shell wx-config --cflags)  $(Preprocessors)
 CFLAGS   :=  -g -O0 -Wall $(Preprocessors)
 ASFLAGS  := 
-AS       := C:/mingw-w64/x86_64-5.1.0/mingw64/bin/as.exe
+AS       := C:/mingw-w64/mingw64/bin/as.exe
 
 
 ##
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainData.cpp$(ObjectSuffix) $(IntermediateDirectory)/win_resources.rc$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainData.cpp$(ObjectSuffix) $(IntermediateDirectory)/Margin.cpp$(ObjectSuffix) $(IntermediateDirectory)/win_resources.rc$(ObjectSuffix) 
 
 
 
@@ -132,6 +132,14 @@ $(IntermediateDirectory)/MainData.cpp$(DependSuffix): MainData.cpp
 
 $(IntermediateDirectory)/MainData.cpp$(PreprocessSuffix): MainData.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/MainData.cpp$(PreprocessSuffix)MainData.cpp
+
+$(IntermediateDirectory)/Margin.cpp$(ObjectSuffix): Margin.cpp $(IntermediateDirectory)/Margin.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "D:/Project/CPrice/Margin.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Margin.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/Margin.cpp$(DependSuffix): Margin.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/Margin.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/Margin.cpp$(DependSuffix) -MM Margin.cpp
+
+$(IntermediateDirectory)/Margin.cpp$(PreprocessSuffix): Margin.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Margin.cpp$(PreprocessSuffix)Margin.cpp
 
 $(IntermediateDirectory)/win_resources.rc$(ObjectSuffix): win_resources.rc
 	$(RcCompilerName) -i "D:/Project/CPrice/win_resources.rc" $(RcCmpOptions)   $(ObjectSwitch)$(IntermediateDirectory)/win_resources.rc$(ObjectSuffix) $(RcIncludePath)

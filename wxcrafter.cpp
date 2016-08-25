@@ -102,11 +102,23 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     m_menuItemEPS = new wxMenuItem(m_menuTA, wxID_ANY, _("Process EPS"), wxT(""), wxITEM_NORMAL);
     m_menuTA->Append(m_menuItemEPS);
     
-    m_name8 = new wxMenu();
-    m_menuBar->Append(m_name8, _("Help"));
+    m_menuNew3 = new wxMenu();
+    m_menuBar->Append(m_menuNew3, _("New3"));
     
-    m_menuItem9 = new wxMenuItem(m_name8, wxID_ABOUT, _("About..."), wxT(""), wxITEM_NORMAL);
-    m_name8->Append(m_menuItem9);
+    m_menuItemRETURNONP = new wxMenuItem(m_menuNew3, wxID_ANY, _("RETURNONP"), wxT(""), wxITEM_NORMAL);
+    m_menuNew3->Append(m_menuItemRETURNONP);
+    
+    m_menuItemDPRATIO = new wxMenuItem(m_menuNew3, wxID_ANY, _("DPRATIO"), wxT(""), wxITEM_NORMAL);
+    m_menuNew3->Append(m_menuItemDPRATIO);
+    
+    m_menuItemMARGINS = new wxMenuItem(m_menuNew3, wxID_ANY, _("MARGINS"), wxT(""), wxITEM_NORMAL);
+    m_menuNew3->Append(m_menuItemMARGINS);
+    
+    m_nameHelp = new wxMenu();
+    m_menuBar->Append(m_nameHelp, _("Help"));
+    
+    m_menuItem9 = new wxMenuItem(m_nameHelp, wxID_ABOUT, _("About..."), wxT(""), wxITEM_NORMAL);
+    m_nameHelp->Append(m_menuItem9);
     
     m_mainToolbar = this->CreateToolBar(wxTB_FLAT, wxID_ANY);
     m_mainToolbar->SetToolBitmapSize(wxSize(16,16));
@@ -142,6 +154,9 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     this->Connect(m_menuItemSALE->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessSALE), NULL, this);
     this->Connect(m_menuItemMKVALT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessMKVALT), NULL, this);
     this->Connect(m_menuItemEPS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessEPS), NULL, this);
+    this->Connect(m_menuItemRETURNONP->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRETURNONP), NULL, this);
+    this->Connect(m_menuItemDPRATIO->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnDPRATIO), NULL, this);
+    this->Connect(m_menuItemMARGINS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnMARGINS), NULL, this);
     this->Connect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }
@@ -161,6 +176,9 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItemSALE->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessSALE), NULL, this);
     this->Disconnect(m_menuItemMKVALT->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessMKVALT), NULL, this);
     this->Disconnect(m_menuItemEPS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnProcessEPS), NULL, this);
+    this->Disconnect(m_menuItemRETURNONP->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRETURNONP), NULL, this);
+    this->Disconnect(m_menuItemDPRATIO->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnDPRATIO), NULL, this);
+    this->Disconnect(m_menuItemMARGINS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnMARGINS), NULL, this);
     this->Disconnect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }

@@ -100,20 +100,20 @@ bool TA::readLine(char strline[])
 }
 
 ///////////////////////////////
-// TAData class
+// TAMainData class
 ///////////////////////////////
-TAData::TAData()
+TAMainData::TAMainData()
 {
 	big33 = mid33 = small33 = 0;
 	matched = 1;
 }
 
 
-TAData::~TAData()
+TAMainData::~TAMainData()
 {
 }
 
-bool TAData::readLine(char strline[])
+bool TAMainData::readLine(char strline[])
 {
 	
 	char tic[20];
@@ -126,3 +126,5 @@ bool TAData::readLine(char strline[])
 	else
 		return false;
 }
+
+/////////////////////////////////////

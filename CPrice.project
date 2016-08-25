@@ -8,6 +8,8 @@
     <File Name="wxcrafter.cpp"/>
     <File Name="wxcrafter_bitmaps.cpp"/>
     <File Name="MainData.cpp"/>
+    <File Name="Margin.h"/>
+    <File Name="Margin.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <File Name="MainFrame.h"/>

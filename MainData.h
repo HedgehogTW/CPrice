@@ -53,11 +53,11 @@ public:
 	float m_price;
 };
 ////////////////////////// new task
-class TAData
+class TAMainData
 {
 public:
-	TAData();
-	~TAData();
+	TAMainData();
+	~TAMainData();
 	
 	bool readLine(char strline[]);
 	
@@ -98,3 +98,4 @@ public:
 	float at;
 	bool match;
 };
+

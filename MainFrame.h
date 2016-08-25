@@ -32,6 +32,8 @@ public:
 	void outputCombineData(string& varName);
 	void saveSeparatedYearData(string& varName);
 	
+
+	
 	wxString	m_strFolder;
 	wxString m_strMainTitle;
 	vector<MainData> m_vMain;
@@ -40,7 +42,7 @@ public:
 	wxArrayString 	m_NGnames;
 	
 	vector<vector<TA>> m_vTAYear;
-	vector<TAData> m_vTAData;
+	vector<TAMainData> m_vTAMainData;
 	string  m_titleData;
 	
 /////////////////////////	
@@ -65,6 +67,9 @@ public:
 	static MainFrame *m_pThis;
 
 protected:
+    virtual void OnDPRATIO(wxCommandEvent& event);
+    virtual void OnMARGINS(wxCommandEvent& event);
+    virtual void OnRETURNONP(wxCommandEvent& event);
     virtual void OnProcessEPS(wxCommandEvent& event);
     virtual void OnProcessMKVALT(wxCommandEvent& event);
     virtual void OnProcessTA(wxCommandEvent& event);

@@ -5,6 +5,8 @@
 #include <wx/wfstream.h>
 #include <algorithm>
 
+#include "Margin.h"
+
 MainFrame *MainFrame::m_pThis=NULL;
 
 MainFrame::MainFrame(wxWindow* parent)
@@ -367,7 +369,8 @@ void MainFrame::loadVariableData(string& varName)
 	int count0813 = 0;
 	vector<TA> vTA0813;
 	while (!feof(fp)) {
-		fgets(strline, 200, fp);
+		char* p = fgets(strline, 200, fp);
+		if(p==NULL) break;
 		count++;
 		TA  oneData;
 		if(oneData.readLine(strline)==true) {
@@ -416,8 +419,8 @@ void MainFrame::loadVariableData(string& varName)
 
 	for(int i=0; i<vTA.size(); i++) {
 		bool bFound = false;
-		for(int k=0; k<m_vTAData.size(); k++) {
-			if(vTA[i].tic.compare(m_vTAData[k].firm_tic)==0) {
+		for(int k=0; k<m_vTAMainData.size(); k++) {
+			if(vTA[i].tic.compare(m_vTAMainData[k].firm_tic)==0) {
 				bFound = true;
 				break;
 			}
@@ -554,14 +557,14 @@ void MainFrame::loadDataFile()
 //	strTitle[strlen(strTitle)-2] = 0;
 	m_titleData = string(strTitle) + "  big33  mid33  small33";
 	
-	m_vTAData.clear();
+	m_vTAMainData.clear();
 	int count = 0;
 	while (!feof(fp)) {
 		char* p = fgets(strline, 200, fp);
 		if(p==NULL) break;
-		TAData  oneData;
+		TAMainData  oneData;
 		if(oneData.readLine(strline)==true) {
-			m_vTAData.push_back(oneData);
+			m_vTAMainData.push_back(oneData);
 			count++;
 		}
 	} 
@@ -581,29 +584,29 @@ void MainFrame::outputCombineData(string& varName)
 {
 	// combine TA ..............
 	string oldTic;
-	for(int i=0; i<m_vTAData.size(); i++) {
-		int idx = getIdx(m_vTAYear[m_vTAData[i].year - 2008], m_vTAData[i].firm_tic);
+	for(int i=0; i<m_vTAMainData.size(); i++) {
+		int idx = getIdx(m_vTAYear[m_vTAMainData[i].year - 2008], m_vTAMainData[i].firm_tic);
 		if(idx ==0) {
-			if(m_vTAData[i].firm_tic.compare(oldTic)!=0) {
+			if(m_vTAMainData[i].firm_tic.compare(oldTic)!=0) {
 				wxString msg;
-				msg << "Var Data ERR: " << i+1 << ", year " << m_vTAData[i].year << ", firm_tic:" << m_vTAData[i].firm_tic 
-					<< ", date:" << m_vTAData[i].ddate << "\n";
+				msg << "Var Data ERR: " << i+1 << ", year " << m_vTAMainData[i].year << ", firm_tic:" << m_vTAMainData[i].firm_tic 
+					<< ", date:" << m_vTAMainData[i].ddate << "\n";
 				ShowMessage(msg);
-				oldTic = m_vTAData[i].firm_tic;
+				oldTic = m_vTAMainData[i].firm_tic;
 			}
-			m_vTAData[i].matched = 0;
+			m_vTAMainData[i].matched = 0;
 		}else if(idx ==1) {
-			m_vTAData[i].small33 = 1;
-			m_vTAData[i].mid33 = 0;
-			m_vTAData[i].big33 = 0;
+			m_vTAMainData[i].small33 = 1;
+			m_vTAMainData[i].mid33 = 0;
+			m_vTAMainData[i].big33 = 0;
 		}else if(idx ==2) {
-			m_vTAData[i].small33 = 0;
-			m_vTAData[i].mid33 = 1;
-			m_vTAData[i].big33 = 0;
+			m_vTAMainData[i].small33 = 0;
+			m_vTAMainData[i].mid33 = 1;
+			m_vTAMainData[i].big33 = 0;
 		}else if(idx ==3) {
-			m_vTAData[i].small33 = 0;
-			m_vTAData[i].mid33 = 0;
-			m_vTAData[i].big33 = 1;
+			m_vTAMainData[i].small33 = 0;
+			m_vTAMainData[i].mid33 = 0;
+			m_vTAMainData[i].big33 = 1;
 		}
 	}
 	
@@ -613,17 +616,17 @@ void MainFrame::outputCombineData(string& varName)
 	FILE* fp = fopen(savename.c_str(), "w");
 	fprintf(fp, "%s\n", m_titleData.c_str());
 	int match = 0;	
-	for(int i=0; i<m_vTAData.size(); i++) {
-		if(m_vTAData[i].matched ==0) continue;
+	for(int i=0; i<m_vTAMainData.size(); i++) {
+		if(m_vTAMainData[i].matched ==0) continue;
 		fprintf(fp, "%6d   %10s   %8d  %d  %s  %5d  %5d  %5d\n", 
-		m_vTAData[i].firmID, m_vTAData[i].firm_tic.c_str(), m_vTAData[i].year, m_vTAData[i].ddate, m_vTAData[i].strLater.c_str(),
-		m_vTAData[i].big33, m_vTAData[i].mid33, m_vTAData[i].small33);
+		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].ddate, m_vTAMainData[i].strLater.c_str(),
+		m_vTAMainData[i].big33, m_vTAMainData[i].mid33, m_vTAMainData[i].small33);
 		match ++;
 	}
 	fclose(fp);
 	
 	wxString msg;
-	msg << "Read Data size " << m_vTAData.size() << ", match: " << match << "\n";
+	msg << "Read Data size " << m_vTAMainData.size() << ", match: " << match << "\n";
 	ShowMessage(msg);	
 	
 	saveSeparatedYearData(varName);
@@ -654,12 +657,12 @@ void MainFrame::saveSeparatedYearData(string& varName)
 
 	
 	int match = 0;	
-	for(int i=0; i<m_vTAData.size(); i++) {
-		if(m_vTAData[i].matched ==0) continue;
+	for(int i=0; i<m_vTAMainData.size(); i++) {
+		if(m_vTAMainData[i].matched ==0) continue;
 		
-		fprintf(fp[m_vTAData[i].year-2008], "%d, %s, %d, %d, %d, %d, %d\n", 
-		m_vTAData[i].firmID, m_vTAData[i].firm_tic.c_str(), m_vTAData[i].year, m_vTAData[i].ddate,
-		m_vTAData[i].big33, m_vTAData[i].mid33, m_vTAData[i].small33);
+		fprintf(fp[m_vTAMainData[i].year-2008], "%d, %s, %d, %d, %d, %d, %d\n", 
+		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].ddate,
+		m_vTAMainData[i].big33, m_vTAMainData[i].mid33, m_vTAMainData[i].small33);
 		match ++;
 	}
 	
@@ -746,4 +749,41 @@ void MainFrame::OnProcessEPS(wxCommandEvent& event)
 	outputCombineData(varName);	
 	wxEndBusyCursor ();
 	wxBell();
+}
+
+void MainFrame::OnDPRATIO(wxCommandEvent& event)
+{
+	wxBeginBusyCursor ();
+	
+	string varName = string("DPRATIO");
+	Margin  var(varName);
+	var.loadVariableData();
+	var.sortVarData();
+	var.outputCombineData();
+	wxEndBusyCursor ();
+	wxBell();		
+}
+void MainFrame::OnMARGINS(wxCommandEvent& event)
+{
+	wxBeginBusyCursor ();
+	
+	string varName = string("MARGINS");
+	Margin  var(varName);
+	var.loadVariableData();
+	var.sortVarData();
+	var.outputCombineData();
+	wxEndBusyCursor ();
+	wxBell();		
+}
+void MainFrame::OnRETURNONP(wxCommandEvent& event)
+{
+	wxBeginBusyCursor ();
+	
+	string varName = string("RETURNONP");
+	Margin  var(varName);
+	var.loadVariableData();
+	var.sortVarData();
+	var.outputCombineData();	
+	wxEndBusyCursor ();
+	wxBell();	
 }
