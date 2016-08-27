@@ -322,8 +322,8 @@ int Margin::getIdx(vector<MarginData> &vTA, string ftic)
 
 	if(idx >= 0) {
 		float r = (float) idx / sz;
-		if(r <= 1./3.) ret = 1;
-		else if(r <= 2./3.) ret = 2;
+		if(r <= 0.1) ret = 1;
+		else if(r <= 0.9) ret = 2;
 		else ret = 3;
 	}else ret = 0;
 
