@@ -114,6 +114,12 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     m_menuItemMARGINS = new wxMenuItem(m_menuNew3, wxID_ANY, _("MARGINS"), wxT(""), wxITEM_NORMAL);
     m_menuNew3->Append(m_menuItemMARGINS);
     
+    m_menuRating = new wxMenu();
+    m_menuBar->Append(m_menuRating, _("Rating"));
+    
+    m_menuItemRateDD = new wxMenuItem(m_menuRating, wxID_ANY, _("DD"), wxT(""), wxITEM_NORMAL);
+    m_menuRating->Append(m_menuItemRateDD);
+    
     m_nameHelp = new wxMenu();
     m_menuBar->Append(m_nameHelp, _("Help"));
     
@@ -157,6 +163,7 @@ MainFrameBaseClass::MainFrameBaseClass(wxWindow* parent, wxWindowID id, const wx
     this->Connect(m_menuItemRETURNONP->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRETURNONP), NULL, this);
     this->Connect(m_menuItemDPRATIO->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnDPRATIO), NULL, this);
     this->Connect(m_menuItemMARGINS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnMARGINS), NULL, this);
+    this->Connect(m_menuItemRateDD->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRateDD), NULL, this);
     this->Connect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }
@@ -179,6 +186,7 @@ MainFrameBaseClass::~MainFrameBaseClass()
     this->Disconnect(m_menuItemRETURNONP->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRETURNONP), NULL, this);
     this->Disconnect(m_menuItemDPRATIO->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnDPRATIO), NULL, this);
     this->Disconnect(m_menuItemMARGINS->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnMARGINS), NULL, this);
+    this->Disconnect(m_menuItemRateDD->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnRateDD), NULL, this);
     this->Disconnect(m_menuItem9->GetId(), wxEVT_COMMAND_MENU_SELECTED, wxCommandEventHandler(MainFrameBaseClass::OnAbout), NULL, this);
     
 }

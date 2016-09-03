@@ -6,6 +6,7 @@
 #include <algorithm>
 
 #include "Margin.h"
+#include "Rating.h"
 
 MainFrame *MainFrame::m_pThis=NULL;
 
@@ -556,6 +557,7 @@ void MainFrame::loadDataFile()
 	strTitle[strlen(strTitle)-1] = 0;
 //	strTitle[strlen(strTitle)-2] = 0;
 	m_titleData = string(strTitle) + "  big33  mid33  small33";
+	m_titleData.insert(33, "month"); 
 	
 	m_vTAMainData.clear();
 	int count = 0;
@@ -590,7 +592,7 @@ void MainFrame::outputCombineData(string& varName)
 			if(m_vTAMainData[i].firm_tic.compare(oldTic)!=0) {
 				wxString msg;
 				msg << "Var Data ERR: " << i+1 << ", year " << m_vTAMainData[i].year << ", firm_tic:" << m_vTAMainData[i].firm_tic 
-					<< ", date:" << m_vTAMainData[i].ddate << "\n";
+					<< ", date:" << m_vTAMainData[i].month << "\n";
 				ShowMessage(msg);
 				oldTic = m_vTAMainData[i].firm_tic;
 			}
@@ -618,8 +620,8 @@ void MainFrame::outputCombineData(string& varName)
 	int match = 0;	
 	for(int i=0; i<m_vTAMainData.size(); i++) {
 		if(m_vTAMainData[i].matched ==0) continue;
-		fprintf(fp, "%6d   %10s   %8d  %d  %s  %5d  %5d  %5d\n", 
-		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].ddate, m_vTAMainData[i].strLater.c_str(),
+		fprintf(fp, "%6d   %10s   %8d  %4d  %s  %5d  %5d  %5d\n", 
+		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].month, m_vTAMainData[i].strLater.c_str(),
 		m_vTAMainData[i].big33, m_vTAMainData[i].mid33, m_vTAMainData[i].small33);
 		match ++;
 	}
@@ -660,8 +662,8 @@ void MainFrame::saveSeparatedYearData(string& varName)
 	for(int i=0; i<m_vTAMainData.size(); i++) {
 		if(m_vTAMainData[i].matched ==0) continue;
 		
-		fprintf(fp[m_vTAMainData[i].year-2008], "%d, %s, %d, %d, %d, %d, %d\n", 
-		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].ddate,
+		fprintf(fp[m_vTAMainData[i].year-2008], "%d, %s, %d, %4d, %d, %d, %d\n", 
+		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].month,
 		m_vTAMainData[i].big33, m_vTAMainData[i].mid33, m_vTAMainData[i].small33);
 		match ++;
 	}
@@ -786,4 +788,16 @@ void MainFrame::OnRETURNONP(wxCommandEvent& event)
 	var.outputCombineData();	
 	wxEndBusyCursor ();
 	wxBell();	
+}
+void MainFrame::OnRateDD(wxCommandEvent& event)
+{
+	wxBeginBusyCursor ();
+	
+	string varName = string("RATING");
+	Rating  var(varName);
+	var.loadVariableData();
+	//var.sortVarData();
+//	var.outputCombineData();	
+	wxEndBusyCursor ();
+	wxBell();		
 }

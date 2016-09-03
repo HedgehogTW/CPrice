@@ -67,6 +67,8 @@ protected:
     wxMenuItem* m_menuItemRETURNONP;
     wxMenuItem* m_menuItemDPRATIO;
     wxMenuItem* m_menuItemMARGINS;
+    wxMenu* m_menuRating;
+    wxMenuItem* m_menuItemRateDD;
     wxMenu* m_nameHelp;
     wxMenuItem* m_menuItem9;
     wxToolBar* m_mainToolbar;
@@ -88,6 +90,7 @@ protected:
     virtual void OnRETURNONP(wxCommandEvent& event) { event.Skip(); }
     virtual void OnDPRATIO(wxCommandEvent& event) { event.Skip(); }
     virtual void OnMARGINS(wxCommandEvent& event) { event.Skip(); }
+    virtual void OnRateDD(wxCommandEvent& event) { event.Skip(); }
     virtual void OnAbout(wxCommandEvent& event) { event.Skip(); }
 
 public:

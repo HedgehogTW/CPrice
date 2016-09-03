@@ -17,6 +17,8 @@ bool MarginData::readLine(char strline[])
 	if(sales ==0)  return false;
 	tic = string(stic);
 	ratio = ib/sales;
+	if(ratio <=0) DIVD = 1;
+	else DIVD = 0;
 	//MainFrame::ShowMessage("%d %d %d %s %f\n", gvkey, datadate, fyear, stic, at);
 	if(n!= 4)
 		return false;
@@ -53,6 +55,7 @@ void Margin::loadDataFile()
 	strTitle[strlen(strTitle)-1] = 0;
 //	strTitle[strlen(strTitle)-2] = 0;
 	m_titleData = string(strTitle) + "  big33  mid33  small33";
+	m_titleData.insert(33, "month"); 
 	
 	m_vTAMainData.clear();
 	int count = 0;
@@ -249,8 +252,8 @@ void Margin::sortRatio(int year, vector<MarginData>& vTA)
 		return;
 	}
 	for(int i=0; i<vTA.size(); i++) {
-		fprintf(fp, "%d,  %s,  %.3f,  %.3f,  %.3f\n", 
-				vTA[i].fyear, vTA[i].tic.c_str(), vTA[i].ib, vTA[i].sales, vTA[i].ratio);
+		fprintf(fp, "%d,  %s,  %.3f,  %.3f,  %.3f, %d\n", 
+				vTA[i].fyear, vTA[i].tic.c_str(), vTA[i].ib, vTA[i].sales, vTA[i].ratio, vTA[i].DIVD);
 	}
 	fclose(fp);	
 }
@@ -260,12 +263,13 @@ void Margin::outputCombineData()
 	// combine TA ..............
 	string oldTic;
 	for(int i=0; i<m_vTAMainData.size(); i++) {
-		int idx = getIdx(m_vTAYear[m_vTAMainData[i].year - 2008], m_vTAMainData[i].firm_tic);
+		int divd;
+		int idx = getIdx(m_vTAYear[m_vTAMainData[i].year - 2008], m_vTAMainData[i].firm_tic, divd);
 		if(idx ==0) {
 			if(m_vTAMainData[i].firm_tic.compare(oldTic)!=0) {
 				wxString msg;
 				msg << "Var Data ERR: " << i+1 << ", year " << m_vTAMainData[i].year << ", firm_tic:" << m_vTAMainData[i].firm_tic 
-					<< ", date:" << m_vTAMainData[i].ddate << "\n";
+					<< ", month:" << m_vTAMainData[i].month << "\n";
 				MainFrame::ShowMessage(msg);
 				oldTic = m_vTAMainData[i].firm_tic;
 			}
@@ -274,14 +278,17 @@ void Margin::outputCombineData()
 			m_vTAMainData[i].small33 = 1;
 			m_vTAMainData[i].mid33 = 0;
 			m_vTAMainData[i].big33 = 0;
+			m_vTAMainData[i].DIVD = divd;
 		}else if(idx ==2) {
 			m_vTAMainData[i].small33 = 0;
 			m_vTAMainData[i].mid33 = 1;
 			m_vTAMainData[i].big33 = 0;
+			m_vTAMainData[i].DIVD = divd;
 		}else if(idx ==3) {
 			m_vTAMainData[i].small33 = 0;
 			m_vTAMainData[i].mid33 = 0;
 			m_vTAMainData[i].big33 = 1;
+			m_vTAMainData[i].DIVD = divd;
 		}
 	}
 	
@@ -289,13 +296,13 @@ void Margin::outputCombineData()
 	wxString savename = m_strFolder + m_varName;
 	savename << "_result.txt";	
 	FILE* fp = fopen(savename.c_str(), "w");
-	fprintf(fp, "%s\n", m_titleData.c_str());
+	fprintf(fp, "%s  DIVD\n", m_titleData.c_str());
 	int match = 0;	
 	for(int i=0; i<m_vTAMainData.size(); i++) {
 		if(m_vTAMainData[i].matched ==0) continue;
-		fprintf(fp, "%6d   %10s   %8d  %d  %s  %5d  %5d  %5d\n", 
-		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].ddate, m_vTAMainData[i].strLater.c_str(),
-		m_vTAMainData[i].big33, m_vTAMainData[i].mid33, m_vTAMainData[i].small33);
+		fprintf(fp, "%6d   %10s   %8d  %4d  %s  %5d  %5d  %5d  %d\n", 
+		m_vTAMainData[i].firmID, m_vTAMainData[i].firm_tic.c_str(), m_vTAMainData[i].year, m_vTAMainData[i].month, m_vTAMainData[i].strLater.c_str(),
+		m_vTAMainData[i].big33, m_vTAMainData[i].mid33, m_vTAMainData[i].small33, m_vTAMainData[i].DIVD);
 		match ++;
 	}
 	fclose(fp);
@@ -308,7 +315,7 @@ void Margin::outputCombineData()
 
 }
 
-int Margin::getIdx(vector<MarginData> &vTA, string ftic)
+int Margin::getIdx(vector<MarginData> &vTA, string ftic, int& divd)
 {
 	int ret = 0;
 	int idx = -1; 
@@ -316,6 +323,7 @@ int Margin::getIdx(vector<MarginData> &vTA, string ftic)
 	for (int i=0; i<sz; i++){
 		if(vTA[i].tic.compare(ftic)==0) {
 			idx = i;
+			divd = vTA[i].DIVD;
 			break;
 		}
 	}

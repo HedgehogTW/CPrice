@@ -24,6 +24,7 @@ public:
 	float ib;
 	float sales;
 	float ratio;
+	int DIVD;
 	
 	bool match;	
 };
@@ -39,7 +40,7 @@ public:
 	void sortVarData();
 	void sortRatio(int year, vector<MarginData>& vTA);
 	void outputCombineData();
-	int  getIdx(vector<MarginData> &vTA, string ftic);
+	int  getIdx(vector<MarginData> &vTA, string ftic, int& divd);
 	
 	wxString	m_strFolder;
 	string m_varName;

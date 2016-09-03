@@ -13,7 +13,7 @@ CurrentFileName        :=
 CurrentFilePath        :=
 CurrentFileFullPath    :=
 User                   :=leech
-Date                   :=27/08/2016
+Date                   :=03/09/2016
 CodeLitePath           :="C:/Program Files/CodeLite"
 LinkerName             :=C:/mingw-w64/x86_64-5.3.0/mingw64/bin/g++.exe
 SharedObjectLinkerName :=C:/mingw-w64/x86_64-5.3.0/mingw64/bin/g++.exe -shared -fPIC
@@ -62,7 +62,7 @@ AS       := C:/mingw-w64/x86_64-5.3.0/mingw64/bin/as.exe
 ## User defined environment variables
 ##
 CodeLiteDir:=C:\Program Files\CodeLite
-Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainData.cpp$(ObjectSuffix) $(IntermediateDirectory)/Margin.cpp$(ObjectSuffix) $(IntermediateDirectory)/win_resources.rc$(ObjectSuffix) 
+Objects0=$(IntermediateDirectory)/main.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainFrame.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter.cpp$(ObjectSuffix) $(IntermediateDirectory)/wxcrafter_bitmaps.cpp$(ObjectSuffix) $(IntermediateDirectory)/MainData.cpp$(ObjectSuffix) $(IntermediateDirectory)/Margin.cpp$(ObjectSuffix) $(IntermediateDirectory)/Rating.cpp$(ObjectSuffix) $(IntermediateDirectory)/win_resources.rc$(ObjectSuffix) 
 
 
 
@@ -140,6 +140,14 @@ $(IntermediateDirectory)/Margin.cpp$(DependSuffix): Margin.cpp
 
 $(IntermediateDirectory)/Margin.cpp$(PreprocessSuffix): Margin.cpp
 	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Margin.cpp$(PreprocessSuffix)Margin.cpp
+
+$(IntermediateDirectory)/Rating.cpp$(ObjectSuffix): Rating.cpp $(IntermediateDirectory)/Rating.cpp$(DependSuffix)
+	$(CXX) $(IncludePCH) $(SourceSwitch) "D:/Project/CPrice/Rating.cpp" $(CXXFLAGS) $(ObjectSwitch)$(IntermediateDirectory)/Rating.cpp$(ObjectSuffix) $(IncludePath)
+$(IntermediateDirectory)/Rating.cpp$(DependSuffix): Rating.cpp
+	@$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) -MG -MP -MT$(IntermediateDirectory)/Rating.cpp$(ObjectSuffix) -MF$(IntermediateDirectory)/Rating.cpp$(DependSuffix) -MM Rating.cpp
+
+$(IntermediateDirectory)/Rating.cpp$(PreprocessSuffix): Rating.cpp
+	$(CXX) $(CXXFLAGS) $(IncludePCH) $(IncludePath) $(PreprocessOnlySwitch) $(OutputSwitch) $(IntermediateDirectory)/Rating.cpp$(PreprocessSuffix)Rating.cpp
 
 $(IntermediateDirectory)/win_resources.rc$(ObjectSuffix): win_resources.rc
 	$(RcCompilerName) -i "D:/Project/CPrice/win_resources.rc" $(RcCmpOptions)   $(ObjectSwitch)$(IntermediateDirectory)/win_resources.rc$(ObjectSuffix) $(RcIncludePath)

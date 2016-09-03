@@ -67,6 +67,7 @@ public:
 	static MainFrame *m_pThis;
 
 protected:
+    virtual void OnRateDD(wxCommandEvent& event);
     virtual void OnDPRATIO(wxCommandEvent& event);
     virtual void OnMARGINS(wxCommandEvent& event);
     virtual void OnRETURNONP(wxCommandEvent& event);

@@ -21,6 +21,8 @@ MainData::MainData()
 	m_NG_a105 = 0;
 	
 	m_minute = 0;
+	
+
 }
 
 
@@ -106,6 +108,7 @@ TAMainData::TAMainData()
 {
 	big33 = mid33 = small33 = 0;
 	matched = 1;
+	DIVD = -1;
 }
 
 
@@ -117,11 +120,12 @@ bool TAMainData::readLine(char strline[])
 {
 	
 	char tic[20];
-	int n =sscanf(strline, "%d%s%d%d", &firmID, &tic, &year, &ddate);
+	int n =sscanf(strline, "%d%s%d", &firmID, &tic, &year);
 	firm_tic = string(tic);
 	strline[strlen(strline)-1] = 0;
-	strLater = string(strline + 43);
-	if(n==4)
+	strLater = string(strline + 33);
+	sscanf(strLater.c_str(), "%*4d%2d", &month);
+	if(n==3)
 		return true;
 	else
 		return false;

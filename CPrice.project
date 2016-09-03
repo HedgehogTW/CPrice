@@ -10,6 +10,8 @@
     <File Name="MainData.cpp"/>
     <File Name="Margin.h"/>
     <File Name="Margin.cpp"/>
+    <File Name="Rating.h"/>
+    <File Name="Rating.cpp"/>
   </VirtualDirectory>
   <VirtualDirectory Name="include">
     <File Name="MainFrame.h"/>
