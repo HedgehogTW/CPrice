@@ -33,7 +33,10 @@ public:
 	void loadDataFile();
 	void loadVariableData();	
 	void saveByYear(int year, wxString& filename, vector<RatingData>& vTA);	
+	void sortVarData();
+	void sortRatio(int year, vector<RatingData>& vTA);	
 	void outputCombineData();
+	int  getIdx(int year, int month, string ftic);
 	
 	wxString	m_strFolder;
 	string m_varName;

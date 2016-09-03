@@ -69,6 +69,7 @@ public:
 	int big33, mid33, small33;
 	int matched;
 	int DIVD;
+	int dd;
 };
 
 class TA 

@@ -796,8 +796,8 @@ void MainFrame::OnRateDD(wxCommandEvent& event)
 	string varName = string("RATING");
 	Rating  var(varName);
 	var.loadVariableData();
-	//var.sortVarData();
-//	var.outputCombineData();	
+	var.sortVarData();
+	var.outputCombineData();	
 	wxEndBusyCursor ();
 	wxBell();		
 }
